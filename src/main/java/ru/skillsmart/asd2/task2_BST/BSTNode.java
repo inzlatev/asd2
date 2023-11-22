@@ -123,7 +123,8 @@ class BST<T> {
     public boolean DeleteNodeByKey(int key) {
         // удаляем узел по ключу
         BSTFind<T> searchResult = FindNodeByKey(key);
-        if (!searchResult.NodeHasKey)
+
+        if (searchResult == null || !searchResult.NodeHasKey)
             return false; // если узел не найден
 
         BSTNode<T> initialNode = searchResult.Node;

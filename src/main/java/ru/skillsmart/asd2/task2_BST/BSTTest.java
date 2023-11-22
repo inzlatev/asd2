@@ -134,5 +134,6 @@ public class BSTTest {
         assertEquals(4, bst.Root.NodeKey);
         assertTrue(bst.DeleteNodeByKey(4));
         assertNull(bst.Root);
+        assertFalse(bst.DeleteNodeByKey(1));
     }
 }
