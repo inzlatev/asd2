@@ -42,20 +42,93 @@ public class BSTTest {
 
     @Test
     public void findNodeByKeyTest() {
-        BSTNode<Integer> bstNodeRoot = new BSTNode<>(25, 1, null);
-        BST<Integer> bst = new BST<>(bstNodeRoot);
 
-        BSTFind<Integer> searchResult = bst.FindNodeByKey(25);
-        assertTrue(searchResult.NodeHasKey);
-        assertEquals(bstNodeRoot, searchResult.Node);
+        BST<Integer> bst = new BST<>(null);
+        assertNull(bst.FindNodeByKey(0));
 
-        searchResult = bst.FindNodeByKey(10);
+        int node1key = 25;
+        bst.AddKeyValue(node1key, 1);
+
+        assertEquals(node1key, bst.FindNodeByKey(node1key).Node.NodeKey);
+        assertTrue(bst.FindNodeByKey(node1key).NodeHasKey);
+        assertEquals(bst.Root, bst.FindNodeByKey(node1key).Node);
+        assertNull(bst.FindNodeByKey(node1key).Node.LeftChild);
+        assertNull(bst.FindNodeByKey(node1key).Node.RightChild);
+        assertNull(bst.FindNodeByKey(node1key).Node.Parent);
+
+        int node2key = 5;
+        bst.AddKeyValue(node2key, 1);
+        assertEquals(node2key, bst.FindNodeByKey(node2key).Node.NodeKey);
+        assertEquals(node1key, bst.FindNodeByKey(node2key).Node.Parent.NodeKey);
+        assertEquals(node2key, bst.FindNodeByKey(node1key).Node.LeftChild.NodeKey);
+        assertNull(bst.FindNodeByKey(node2key).Node.LeftChild);
+        assertNull(bst.FindNodeByKey(node2key).Node.RightChild);
+        assertTrue(bst.FindNodeByKey(node2key).NodeHasKey);
+
+        int node3key = 3;
+        bst.AddKeyValue(node3key, 1);
+        assertEquals(node3key, bst.FindNodeByKey(node3key).Node.NodeKey);
+        assertEquals(node2key, bst.FindNodeByKey(node3key).Node.Parent.NodeKey);
+        assertEquals(node3key, bst.FindNodeByKey(node2key).Node.LeftChild.NodeKey);
+        assertNull(bst.FindNodeByKey(node3key).Node.LeftChild);
+        assertNull(bst.FindNodeByKey(node3key).Node.RightChild);
+        assertTrue(bst.FindNodeByKey(node3key).NodeHasKey);
+
+        int node4key = 4;
+        bst.AddKeyValue(node4key, 1);
+        assertEquals(node4key, bst.FindNodeByKey(node4key).Node.NodeKey);
+        assertEquals(node3key, bst.FindNodeByKey(node4key).Node.Parent.NodeKey);
+        assertEquals(node4key, bst.FindNodeByKey(node3key).Node.RightChild.NodeKey);
+        assertNull(bst.FindNodeByKey(node4key).Node.LeftChild);
+        assertNull(bst.FindNodeByKey(node4key).Node.RightChild);
+        assertTrue(bst.FindNodeByKey(node4key).NodeHasKey);
+
+        int node5key = 10;
+        bst.AddKeyValue(node5key, 1);
+        assertEquals(node5key, bst.FindNodeByKey(node5key).Node.NodeKey);
+        assertEquals(node2key, bst.FindNodeByKey(node5key).Node.Parent.NodeKey);
+        assertEquals(node5key, bst.FindNodeByKey(node2key).Node.RightChild.NodeKey);
+        assertNull(bst.FindNodeByKey(node5key).Node.LeftChild);
+        assertNull(bst.FindNodeByKey(node5key).Node.RightChild);
+        assertTrue(bst.FindNodeByKey(node5key).NodeHasKey);
+
+        int node6key = 35;
+        bst.AddKeyValue(node6key, 1);
+        assertEquals(node6key, bst.FindNodeByKey(node6key).Node.NodeKey);
+        assertEquals(node1key, bst.FindNodeByKey(node6key).Node.Parent.NodeKey);
+        assertEquals(node6key, bst.FindNodeByKey(node1key).Node.RightChild.NodeKey);
+        assertNull(bst.FindNodeByKey(node6key).Node.LeftChild);
+        assertNull(bst.FindNodeByKey(node6key).Node.RightChild);
+        assertTrue(bst.FindNodeByKey(node6key).NodeHasKey);
+
+        int node7key = 30;
+        bst.AddKeyValue(node7key, 1);
+        assertEquals(node7key, bst.FindNodeByKey(node7key).Node.NodeKey);
+        assertEquals(node6key, bst.FindNodeByKey(node7key).Node.Parent.NodeKey);
+        assertEquals(node7key, bst.FindNodeByKey(node6key).Node.LeftChild.NodeKey);
+        assertNull(bst.FindNodeByKey(node7key).Node.LeftChild);
+        assertNull(bst.FindNodeByKey(node7key).Node.RightChild);
+        assertTrue(bst.FindNodeByKey(node7key).NodeHasKey);
+
+        int node8key = 32;
+        bst.AddKeyValue(node8key, 1);
+        assertEquals(node8key, bst.FindNodeByKey(node8key).Node.NodeKey);
+        assertEquals(node7key, bst.FindNodeByKey(node8key).Node.Parent.NodeKey);
+        assertEquals(node8key, bst.FindNodeByKey(node7key).Node.RightChild.NodeKey);
+        assertNull(bst.FindNodeByKey(node8key).Node.LeftChild);
+        assertNull(bst.FindNodeByKey(node8key).Node.RightChild);
+        assertTrue(bst.FindNodeByKey(node8key).NodeHasKey);
+
+
+        BSTFind<Integer> searchResult = bst.FindNodeByKey(12);
         assertFalse(searchResult.NodeHasKey);
-        assertTrue(searchResult.ToLeft);
-
-        searchResult = bst.FindNodeByKey(30);
-        assertFalse(searchResult.NodeHasKey);
+        assertEquals(node5key, searchResult.Node.NodeKey);
         assertFalse(searchResult.ToLeft);
+
+        searchResult = bst.FindNodeByKey(9);
+        assertFalse(searchResult.NodeHasKey);
+        assertEquals(node5key, searchResult.Node.NodeKey);
+        assertTrue(searchResult.ToLeft);
     }
 
     @Test
