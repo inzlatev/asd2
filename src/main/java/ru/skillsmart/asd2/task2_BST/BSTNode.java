@@ -21,11 +21,9 @@ class BSTNode<T> {
 
     @Override
     public String toString() {
-        return "BSTNode[" +
-                "NodeKey=" + NodeKey +
-                ", LeftChild=" + LeftChild +
-                ", RightChild=" + RightChild +
-                ']';
+        return "NodeKey : " + NodeKey +
+                ", LeftChild : {" + LeftChild + "}" +
+                ", RightChild : {" + RightChild + "}";
     }
 }
 
@@ -225,8 +223,7 @@ class BST<T> {
 
     @Override
     public String toString() {
-        return "BST{" +
-                "Root=" + Root +
+        return "{" + Root +
                 '}';
     }
 }
