@@ -130,8 +130,15 @@ class BST<T> {
         BSTNode<T> replacementNode = findReplacementNode(initialNode);
 
         //the node for replacement doesn't have any nodes to the right:
-        if (replacementNode == initialNode && initialNode.equals(Root)) {
-            throw new IllegalArgumentException("Can't handle the case when deleting root node with no right child");
+        if (replacementNode == initialNode && initialNode == Root && initialNode.LeftChild != null) {
+            initialNode.LeftChild.Parent = null;
+            Root = initialNode.LeftChild;
+            initialNode.LeftChild = null;
+            return true;
+        }
+        if (replacementNode == initialNode && initialNode == Root) {
+            Root = null;
+            return true;
         }
         if (replacementNode == initialNode && replacementNode.LeftChild != null) {
 

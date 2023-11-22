@@ -129,5 +129,10 @@ public class BSTTest {
         assertTrue(bst.DeleteNodeByKey(10));
         assertEquals(3, bst.Root.LeftChild.NodeKey);
         assertEquals(30, bst.Root.LeftChild.Parent.NodeKey);
+        assertTrue(bst.DeleteNodeByKey(30));
+        assertTrue(bst.DeleteNodeByKey(3));
+        assertEquals(4, bst.Root.NodeKey);
+        assertTrue(bst.DeleteNodeByKey(4));
+        assertNull(bst.Root);
     }
 }
