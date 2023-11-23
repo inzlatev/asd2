@@ -152,7 +152,12 @@ class BST<T> {
 
             return true;
         } else if (replacementNode == initialNode) {
-            replacementNode.Parent.RightChild = null;
+
+            replacementNode.Parent.RightChild = replacementNode.Parent.RightChild == replacementNode ?
+                    null : replacementNode.Parent.RightChild;
+            replacementNode.Parent.LeftChild = replacementNode.Parent.LeftChild == replacementNode ?
+                    null : replacementNode.Parent.LeftChild;
+
             replacementNode.Parent = null;
             return true;
         }

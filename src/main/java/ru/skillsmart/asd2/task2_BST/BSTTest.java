@@ -58,10 +58,13 @@ public class BSTTest {
         tree.AddKeyValue(11,11);
         tree.AddKeyValue(13,13);
         tree.AddKeyValue(15,15);
+        tree.DeleteNodeByKey(1);
         BSTFind<Integer> f = tree.FindNodeByKey(1);
-        assertNotNull(f);
-        assertTrue(f.NodeHasKey);
-        assertEquals(1, f.Node.NodeKey);
+        assertFalse(f.NodeHasKey);
+        tree.AddKeyValue(1,1);
+        tree.DeleteNodeByKey(3);
+        f = tree.FindNodeByKey(3);
+        assertFalse(f.NodeHasKey);
     }
 
     @Test
