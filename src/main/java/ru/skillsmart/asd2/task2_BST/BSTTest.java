@@ -58,11 +58,15 @@ public class BSTTest {
         tree.AddKeyValue(11,11);
         tree.AddKeyValue(13,13);
         tree.AddKeyValue(15,15);
+        assertEquals(15, tree.Count());
         tree.DeleteNodeByKey(1);
+        assertEquals(14, tree.Count());
         BSTFind<Integer> f = tree.FindNodeByKey(1);
         assertFalse(f.NodeHasKey);
         tree.AddKeyValue(1,1);
+        assertEquals(15, tree.Count());
         tree.DeleteNodeByKey(3);
+        assertEquals(14, tree.Count());
         f = tree.FindNodeByKey(3);
         assertFalse(f.NodeHasKey);
     }
@@ -277,10 +281,13 @@ public class BSTTest {
         bst.AddKeyValue(35, 1);
         bst.AddKeyValue(30, 1);
         bst.AddKeyValue(32, 1);
+        assertEquals(8, bst.Count());
 
         assertFalse(bst.DeleteNodeByKey(66));
+        assertEquals(8, bst.Count());
 
         assertTrue(bst.DeleteNodeByKey(25));
+        assertEquals(7, bst.Count());
         searchResult = bst.FindNodeByKey(25);
         assertFalse(searchResult.NodeHasKey);
         assertEquals(30, bst.Root.NodeKey);
@@ -292,30 +299,145 @@ public class BSTTest {
         assertEquals(32, searchResult.Node.LeftChild.NodeKey);
 
         assertTrue(bst.DeleteNodeByKey(5));
+        assertEquals(6, bst.Count());
         searchResult = bst.FindNodeByKey(5);
         assertFalse(searchResult.NodeHasKey);
         assertEquals(10, bst.Root.LeftChild.NodeKey);
         assertEquals(3, bst.Root.LeftChild.LeftChild.NodeKey);
 
         assertTrue(bst.DeleteNodeByKey(35));
+        assertEquals(5, bst.Count());
         searchResult = bst.FindNodeByKey(35);
         assertFalse(searchResult.NodeHasKey);
         assertEquals(32, bst.Root.RightChild.NodeKey);
         assertEquals(30, bst.Root.RightChild.Parent.NodeKey);
 
         assertTrue(bst.DeleteNodeByKey(32));
+        assertEquals(4, bst.Count());
         searchResult = bst.FindNodeByKey(32);
         assertFalse(searchResult.NodeHasKey);
         assertNull(bst.Root.RightChild);
 
         assertTrue(bst.DeleteNodeByKey(10));
+        assertEquals(3, bst.Count());
         assertEquals(3, bst.Root.LeftChild.NodeKey);
         assertEquals(30, bst.Root.LeftChild.Parent.NodeKey);
+
         assertTrue(bst.DeleteNodeByKey(30));
+        assertEquals(2, bst.Count());
+
+        System.out.println(bst);
         assertTrue(bst.DeleteNodeByKey(3));
+        assertEquals(1, bst.Count());
         assertEquals(4, bst.Root.NodeKey);
+
         assertTrue(bst.DeleteNodeByKey(4));
+        assertEquals(0, bst.Count());
         assertNull(bst.Root);
         assertFalse(bst.DeleteNodeByKey(1));
     }
+
+    @Test
+    public void countTest() {
+        BSTNode<Integer> root = new BSTNode<Integer>(8,0, null);
+        BST<Integer> tree = new BST<Integer>(root);
+        assertEquals(1, tree.Count());
+        tree.AddKeyValue(4,4);
+        tree.AddKeyValue(12,12);
+        tree.AddKeyValue(2,2);
+        tree.AddKeyValue(6,6);
+        tree.AddKeyValue(10,10);
+        tree.AddKeyValue(14,14);
+        tree.AddKeyValue(1,1);
+        tree.AddKeyValue(3,3);
+        tree.AddKeyValue(5,5);
+        tree.AddKeyValue(7,7);
+        tree.AddKeyValue(9,9);
+        tree.AddKeyValue(11,11);
+        tree.AddKeyValue(13,13);
+        tree.AddKeyValue(15,15);
+        assertEquals(15, tree.Count());
+
+        tree.DeleteNodeByKey(1);
+        assertEquals(14, tree.Count());
+        System.out.println(tree.Count());
+        BSTFind<Integer> searchResult = tree.FindNodeByKey(2);
+        assertNull(searchResult.Node.LeftChild);
+
+        tree.DeleteNodeByKey(7);
+        assertEquals(13, tree.Count());
+        System.out.println(tree.Count());
+        searchResult = tree.FindNodeByKey(6);
+        assertNull(searchResult.Node.RightChild);
+
+        tree.DeleteNodeByKey(8);
+        assertEquals(12, tree.Count());
+        assertNull(tree.Root.Parent);
+        searchResult = tree.FindNodeByKey(9);
+        assertSame(tree.Root, searchResult.Node);
+        assertEquals(4, searchResult.Node.LeftChild.NodeKey);
+        assertEquals(12, searchResult.Node.RightChild.NodeKey);
+        searchResult = tree.FindNodeByKey(10);
+        assertNull(searchResult.Node.LeftChild);
+
+        tree.DeleteNodeByKey(12);
+        assertEquals(11, tree.Count());
+        searchResult = tree.FindNodeByKey(13);
+        assertEquals(tree.Root.RightChild, searchResult.Node);
+        assertEquals(tree.Root, searchResult.Node.Parent);
+        assertEquals(14, searchResult.Node.RightChild.NodeKey);
+        assertEquals(13, searchResult.Node.RightChild.Parent.NodeKey);
+        assertEquals(10, searchResult.Node.LeftChild.NodeKey);
+        assertEquals(13, searchResult.Node.LeftChild.Parent.NodeKey);
+        assertNull(searchResult.Node.RightChild.LeftChild);
+
+        tree.DeleteNodeByKey(13);
+        assertEquals(10, tree.Count());
+        assertEquals(14, tree.Root.RightChild.NodeKey);
+        assertEquals(tree.Root, tree.Root.RightChild.Parent);
+        assertEquals(10, tree.Root.RightChild.LeftChild.NodeKey);
+        assertEquals(14, tree.Root.RightChild.LeftChild.Parent.NodeKey);
+        assertEquals(15, tree.Root.RightChild.RightChild.NodeKey);
+        assertEquals(14, tree.Root.RightChild.RightChild.Parent.NodeKey);
+
+        tree.DeleteNodeByKey(10);
+        assertEquals(9, tree.Count());
+        assertEquals(11, tree.Root.RightChild.LeftChild.NodeKey);
+        assertEquals(14, tree.Root.RightChild.LeftChild.Parent.NodeKey);
+
+        tree.DeleteNodeByKey(14);
+        assertEquals(8, tree.Count());
+        assertEquals(15, tree.Root.RightChild.NodeKey);
+        assertEquals(11, tree.Root.RightChild.LeftChild.NodeKey);
+
+        tree.DeleteNodeByKey(9);
+        assertEquals(7, tree.Count());
+        assertEquals(11, tree.Root.NodeKey);
+        assertEquals(15, tree.Root.RightChild.NodeKey);
+        assertEquals(11, tree.Root.RightChild.Parent.NodeKey);
+
+        tree.DeleteNodeByKey(15);
+        assertEquals(6, tree.Count());
+        assertNull(tree.Root.RightChild);
+
+        tree.DeleteNodeByKey(11);
+        assertEquals(5, tree.Count());
+        assertNull(tree.Root.Parent);
+        assertEquals(4, tree.Root.NodeKey);
+        assertEquals(6, tree.Root.RightChild.NodeKey);
+
+        tree.DeleteNodeByKey(2);
+        assertEquals(4, tree.Count());
+        assertEquals(3, tree.Root.LeftChild.NodeKey);
+        assertEquals(4, tree.Root.LeftChild.Parent.NodeKey);
+
+        tree.DeleteNodeByKey(6);
+        tree.DeleteNodeByKey(4);
+
+        tree.DeleteNodeByKey(5);
+        tree.DeleteNodeByKey(3);
+        assertFalse(tree.DeleteNodeByKey(24));
+
+    }
+
 }

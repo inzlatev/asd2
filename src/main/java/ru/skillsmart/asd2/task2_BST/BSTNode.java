@@ -128,64 +128,35 @@ class BST<T> {
         BSTNode<T> initialNode = searchResult.Node;
         BSTNode<T> replacementNode = findReplacementNode(initialNode);
 
-        //the node for replacement doesn't have any nodes to the right:
-        if (replacementNode == initialNode && initialNode == Root && initialNode.LeftChild != null) {
-            initialNode.LeftChild.Parent = null;
-            Root = initialNode.LeftChild;
-            initialNode.LeftChild = null;
+        if (replacementNode == initialNode) {
+            handleRemovalWithNoRightNodes(initialNode);
             return true;
         }
-        if (replacementNode == initialNode && initialNode == Root) {
-            Root = null;
-            return true;
-        }
-        if (replacementNode == initialNode && replacementNode.LeftChild != null) {
 
-            replacementNode.Parent.RightChild = replacementNode.Parent.RightChild == replacementNode ?
-                    replacementNode.LeftChild : replacementNode.Parent.RightChild;
-
-            replacementNode.Parent.LeftChild = replacementNode.Parent.LeftChild == replacementNode ?
-                    replacementNode.LeftChild : replacementNode.Parent.LeftChild;
-
-            replacementNode.LeftChild.Parent = replacementNode.Parent;
-            CleanUpNode(replacementNode);
-
-            return true;
-        } else if (replacementNode == initialNode) {
-
-            replacementNode.Parent.RightChild = replacementNode.Parent.RightChild == replacementNode ?
-                    null : replacementNode.Parent.RightChild;
-            replacementNode.Parent.LeftChild = replacementNode.Parent.LeftChild == replacementNode ?
-                    null : replacementNode.Parent.LeftChild;
-
-            replacementNode.Parent = null;
+        if (initialNode.RightChild == replacementNode) {
+            replaceByRightChild(initialNode, replacementNode);
             return true;
         }
 
         if (replacementNode.RightChild != null) {
             replacementNode.Parent.LeftChild = replacementNode.RightChild;
             replacementNode.RightChild.Parent = replacementNode.Parent;
+        } else {
+            relinkRightOrLeftChildWithNodeParent(null, replacementNode);
         }
 
-        replacementNode.Parent = initialNode.Parent;
+        if (initialNode.Parent != null) {
+            relinkRightOrLeftChildWithNodeParent(replacementNode, initialNode);
+        } else {
+            Root = replacementNode;
+            replacementNode.Parent = null;
+        }
         replacementNode.LeftChild = initialNode.LeftChild;
         if (initialNode.LeftChild != null) {
             initialNode.LeftChild.Parent = replacementNode;
         }
-        if (initialNode.RightChild != null && initialNode.RightChild != replacementNode) {
-            initialNode.RightChild.Parent = replacementNode;
-        }
-
-        if (initialNode.RightChild != replacementNode) {
-            replacementNode.RightChild = initialNode.RightChild;
-        }
-
-        if (initialNode == Root) {
-            Root = replacementNode;
-        } else if (initialNode.Parent.LeftChild == initialNode) {
-            initialNode.Parent.LeftChild = replacementNode;
-        }
-
+        replacementNode.RightChild = initialNode.RightChild;
+        initialNode.RightChild.Parent = replacementNode;
         CleanUpNode(initialNode);
 
         return true;
@@ -202,12 +173,52 @@ class BST<T> {
         return tempNode;
     }
 
+    private void handleRemovalWithNoRightNodes(BSTNode<T> node) {
+        if (node == Root && node.LeftChild != null) {
+            node.LeftChild.Parent = null;
+            Root = node.LeftChild;
+            CleanUpNode(node);
+            return;
+        }
+        if (node == Root) {
+            Root = null;
+            return;
+        }
+        relinkRightOrLeftChildWithNodeParent(node.LeftChild, node);
+        CleanUpNode(node);
+    }
+
+    private void relinkRightOrLeftChildWithNodeParent(BSTNode<T> child, BSTNode<T> node) {
+        boolean isRightChild = node.Parent.RightChild == node;
+        if (isRightChild) {
+            node.Parent.RightChild = child;
+        } else {
+            node.Parent.LeftChild = child;
+        }
+        if (child != null) {
+            child.Parent = node.Parent;
+        }
+    }
+
+    private void replaceByRightChild(BSTNode<T> initialNode, BSTNode<T> replacementNode) {
+        replacementNode.Parent = initialNode.Parent;
+        if (initialNode.Parent != null) {
+            relinkRightOrLeftChildWithNodeParent(replacementNode, initialNode);
+        } else {
+            Root = replacementNode;
+        }
+        replacementNode.LeftChild = initialNode.LeftChild;
+        if (initialNode.LeftChild != null) {
+            initialNode.LeftChild.Parent = replacementNode;
+        }
+        CleanUpNode(initialNode);
+    }
+
     private void CleanUpNode(BSTNode<T> node) {
         node.LeftChild = null;
         node.RightChild = null;
         node.Parent = null;
     }
-
 
     public int Count() {
         return getCountRecursive(Root); // количество узлов в дереве
