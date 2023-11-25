@@ -1,6 +1,9 @@
-package ru.skillsmart.asd2.task2_BST;
+package ru.skillsmart.asd2.task2_BST_task3_traversal;
 
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,48 +25,48 @@ public class BSTTest {
         assertTrue(bst.AddKeyValue(3, 1));
         assertEquals(3, bst.Root.LeftChild.LeftChild.NodeKey);
 
-        assertTrue(bst.AddKeyValue(4,1));
+        assertTrue(bst.AddKeyValue(4, 1));
         assertEquals(4, bst.Root.LeftChild.LeftChild.RightChild.NodeKey);
 
-        assertTrue(bst.AddKeyValue(10,1));
+        assertTrue(bst.AddKeyValue(10, 1));
         assertEquals(10, bst.Root.LeftChild.RightChild.NodeKey);
 
-        assertTrue(bst.AddKeyValue(35,1));
+        assertTrue(bst.AddKeyValue(35, 1));
         assertEquals(35, bst.Root.RightChild.NodeKey);
 
-        assertTrue(bst.AddKeyValue(30,1));
+        assertTrue(bst.AddKeyValue(30, 1));
         assertEquals(30, bst.Root.RightChild.LeftChild.NodeKey);
 
-        assertTrue(bst.AddKeyValue(32,1));
+        assertTrue(bst.AddKeyValue(32, 1));
         assertEquals(32, bst.Root.RightChild.LeftChild.RightChild.NodeKey);
 
-        assertFalse(bst.AddKeyValue(25,1));
+        assertFalse(bst.AddKeyValue(25, 1));
     }
 
     @Test
     public void findNodeByKeyTest3() {
-        BSTNode<Integer> root = new BSTNode<Integer>(8,0, null);
+        BSTNode<Integer> root = new BSTNode<Integer>(8, 0, null);
         BST<Integer> tree = new BST<Integer>(root);
-        tree.AddKeyValue(4,4);
-        tree.AddKeyValue(12,12);
-        tree.AddKeyValue(2,2);
-        tree.AddKeyValue(6,6);
-        tree.AddKeyValue(10,10);
-        tree.AddKeyValue(14,14);
-        tree.AddKeyValue(1,1);
-        tree.AddKeyValue(3,3);
-        tree.AddKeyValue(5,5);
-        tree.AddKeyValue(7,7);
-        tree.AddKeyValue(9,9);
-        tree.AddKeyValue(11,11);
-        tree.AddKeyValue(13,13);
-        tree.AddKeyValue(15,15);
+        tree.AddKeyValue(4, 4);
+        tree.AddKeyValue(12, 12);
+        tree.AddKeyValue(2, 2);
+        tree.AddKeyValue(6, 6);
+        tree.AddKeyValue(10, 10);
+        tree.AddKeyValue(14, 14);
+        tree.AddKeyValue(1, 1);
+        tree.AddKeyValue(3, 3);
+        tree.AddKeyValue(5, 5);
+        tree.AddKeyValue(7, 7);
+        tree.AddKeyValue(9, 9);
+        tree.AddKeyValue(11, 11);
+        tree.AddKeyValue(13, 13);
+        tree.AddKeyValue(15, 15);
         assertEquals(15, tree.Count());
         tree.DeleteNodeByKey(1);
         assertEquals(14, tree.Count());
         BSTFind<Integer> f = tree.FindNodeByKey(1);
         assertFalse(f.NodeHasKey);
-        tree.AddKeyValue(1,1);
+        tree.AddKeyValue(1, 1);
         assertEquals(15, tree.Count());
         tree.DeleteNodeByKey(3);
         assertEquals(14, tree.Count());
@@ -242,6 +245,12 @@ public class BSTTest {
         assertFalse(searchResult.NodeHasKey);
         assertEquals(node5key, searchResult.Node.NodeKey);
         assertTrue(searchResult.ToLeft);
+
+        System.out.println(bst);
+        System.out.println(bst.WideAllNodes());
+        System.out.println(bst.DeepAllNodes(1));
+
+
     }
 
     @Test
@@ -339,24 +348,27 @@ public class BSTTest {
 
     @Test
     public void countTest() {
-        BSTNode<Integer> root = new BSTNode<Integer>(8,0, null);
+        BSTNode<Integer> root = new BSTNode<Integer>(8, 0, null);
         BST<Integer> tree = new BST<Integer>(root);
         assertEquals(1, tree.Count());
-        tree.AddKeyValue(4,4);
-        tree.AddKeyValue(12,12);
-        tree.AddKeyValue(2,2);
-        tree.AddKeyValue(6,6);
-        tree.AddKeyValue(10,10);
-        tree.AddKeyValue(14,14);
-        tree.AddKeyValue(1,1);
-        tree.AddKeyValue(3,3);
-        tree.AddKeyValue(5,5);
-        tree.AddKeyValue(7,7);
-        tree.AddKeyValue(9,9);
-        tree.AddKeyValue(11,11);
-        tree.AddKeyValue(13,13);
-        tree.AddKeyValue(15,15);
+        tree.AddKeyValue(4, 4);
+        tree.AddKeyValue(12, 12);
+        tree.AddKeyValue(2, 2);
+        tree.AddKeyValue(6, 6);
+        tree.AddKeyValue(10, 10);
+        tree.AddKeyValue(14, 14);
+        tree.AddKeyValue(1, 1);
+        tree.AddKeyValue(3, 3);
+        tree.AddKeyValue(5, 5);
+        tree.AddKeyValue(7, 7);
+        tree.AddKeyValue(9, 9);
+        tree.AddKeyValue(11, 11);
+        tree.AddKeyValue(13, 13);
+        tree.AddKeyValue(15, 15);
         assertEquals(15, tree.Count());
+        System.out.println(tree.DeepAllNodes(0));
+        System.out.println(tree.DeepAllNodes(1));
+        System.out.println(tree.DeepAllNodes(2));
 
         tree.DeleteNodeByKey(1);
         assertEquals(14, tree.Count());
@@ -437,7 +449,90 @@ public class BSTTest {
         tree.DeleteNodeByKey(5);
         tree.DeleteNodeByKey(3);
         assertFalse(tree.DeleteNodeByKey(24));
+    }
 
+    @Test
+    public void traversalTestFullTree() {
+        BSTNode<Integer> root = new BSTNode<Integer>(8, 0, null);
+        BST<Integer> tree = new BST<Integer>(root);
+        tree.AddKeyValue(4, 4);
+        tree.AddKeyValue(12, 12);
+        tree.AddKeyValue(2, 2);
+        tree.AddKeyValue(6, 6);
+        tree.AddKeyValue(10, 10);
+        tree.AddKeyValue(14, 14);
+        tree.AddKeyValue(1, 1);
+        tree.AddKeyValue(3, 3);
+        tree.AddKeyValue(5, 5);
+        tree.AddKeyValue(7, 7);
+        tree.AddKeyValue(9, 9);
+        tree.AddKeyValue(11, 11);
+        tree.AddKeyValue(13, 13);
+        tree.AddKeyValue(15, 15);
+
+        ArrayList<Integer> inOrderExpectedResult = new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15));
+        ArrayList<Integer> postOrderExpectedResult = new ArrayList<>(List.of(1, 3, 2, 5, 7, 6, 4, 9, 11, 10, 13, 15, 14, 12, 8));
+        ArrayList<Integer> preOrderExpectedResult = new ArrayList<>(List.of(8, 4, 2, 1, 3, 6, 5, 7, 12, 10, 9, 11, 14, 13, 15));
+        ArrayList<Integer> wideAllNodesExpectedResult = new ArrayList<>(List.of(8, 4, 12, 2, 6, 10, 14, 1, 3, 5, 7, 9, 11, 13, 15));
+
+        ArrayList<BSTNode> deepAllNodesInOrderList = tree.DeepAllNodes(0);
+        for (int i = 0; i < deepAllNodesInOrderList.size(); i++) {
+            assertEquals(inOrderExpectedResult.get(i), deepAllNodesInOrderList.get(i).NodeKey);
+        }
+
+        ArrayList<BSTNode> deepAllNodesPostOrderList = tree.DeepAllNodes(1);
+        for (int i = 0; i < deepAllNodesPostOrderList.size(); i++) {
+            assertEquals(postOrderExpectedResult.get(i), deepAllNodesPostOrderList.get(i).NodeKey);
+        }
+
+        ArrayList<BSTNode> deepAllNodesPreOrderList = tree.DeepAllNodes(2);
+        for (int i = 0; i < deepAllNodesPreOrderList.size(); i++) {
+            assertEquals(preOrderExpectedResult.get(i), deepAllNodesPreOrderList.get(i).NodeKey);
+        }
+
+        ArrayList<BSTNode> wideAllNodesList = tree.WideAllNodes();
+        for (int i = 0; i < wideAllNodesList.size(); i++) {
+            assertEquals(wideAllNodesExpectedResult.get(i), wideAllNodesList.get(i).NodeKey);
+        }
+    }
+
+    @Test
+    public void traversalTestRandomBinaryTree() {
+        BSTNode<Integer> bstNodeRoot = new BSTNode<>(25, 1, null);
+        BST<Integer> bst = new BST<>(bstNodeRoot);
+        bst.AddKeyValue(5, 1);
+        bst.AddKeyValue(3, 1);
+        bst.AddKeyValue(4, 1);
+        bst.AddKeyValue(10, 1);
+        bst.AddKeyValue(35, 1);
+        bst.AddKeyValue(30, 1);
+        bst.AddKeyValue(32, 1);
+
+        ArrayList<Integer> inOrderExpectedResult = new ArrayList<>(List.of(3, 4, 5, 10, 25, 30, 32, 35));
+        ArrayList<Integer> postOrderExpectedResult = new ArrayList<>(List.of(4, 3, 10, 5, 32, 30, 35, 25));
+        ArrayList<Integer> preOrderExpectedResult = new ArrayList<>(List.of(25, 5, 3, 4, 10, 35, 30, 32));
+        ArrayList<Integer> wideAllNodesExpectedResult = new ArrayList<>(List.of(25, 5, 35, 3, 10, 30, 4, 32));
+
+
+        ArrayList<BSTNode> deepAllNodesInOrderList = bst.DeepAllNodes(0);
+        for (int i = 0; i < deepAllNodesInOrderList.size(); i++) {
+            assertEquals(inOrderExpectedResult.get(i), deepAllNodesInOrderList.get(i).NodeKey);
+        }
+
+        ArrayList<BSTNode> deepAllNodesPostOrderList = bst.DeepAllNodes(1);
+        for (int i = 0; i < deepAllNodesPostOrderList.size(); i++) {
+            assertEquals(postOrderExpectedResult.get(i), deepAllNodesPostOrderList.get(i).NodeKey);
+        }
+
+        ArrayList<BSTNode> deepAllNodesPreOrderList = bst.DeepAllNodes(2);
+        for (int i = 0; i < deepAllNodesPreOrderList.size(); i++) {
+            assertEquals(preOrderExpectedResult.get(i), deepAllNodesPreOrderList.get(i).NodeKey);
+        }
+
+        ArrayList<BSTNode> wideAllNodesList = bst.WideAllNodes();
+        for (int i = 0; i < wideAllNodesList.size(); i++) {
+            assertEquals(wideAllNodesExpectedResult.get(i), wideAllNodesList.get(i).NodeKey);
+        }
     }
 
 }

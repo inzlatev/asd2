@@ -1,6 +1,5 @@
-package ru.skillsmart.asd2.task2_BST;
+package ru.skillsmart.asd2.task2_BST_task3_traversal;
 
-import java.io.*;
 import java.util.*;
 
 
@@ -21,9 +20,14 @@ class BSTNode<T> {
 
     @Override
     public String toString() {
-        return "NodeKey : " + NodeKey +
-                ", LeftChild : {" + LeftChild + "}" +
-                ", RightChild : {" + RightChild + "}";
+        return
+                "NodeKey : " +
+                        NodeKey
+                        +
+                        ", LeftChild : {" + LeftChild + "}" +
+                        ", RightChild : {" + RightChild +
+                        "}"
+                ;
     }
 }
 
@@ -236,6 +240,83 @@ class BST<T> {
         return leftCount + rightCount + 1;
 
     }
+
+    public ArrayList<BSTNode> WideAllNodes() {
+        ArrayList<BSTNode> allNodesList = new ArrayList<>();
+        if (Root == null) {
+            return allNodesList;
+        }
+        WideAllNodesRecursive(new ArrayList<>(List.of(Root)), allNodesList);
+        return allNodesList;
+    }
+
+    private void WideAllNodesRecursive(ArrayList<BSTNode> currentLevelNodes, ArrayList<BSTNode> allNodesList) {
+        if (currentLevelNodes.isEmpty())
+            return;
+        allNodesList.addAll(currentLevelNodes);
+
+        ArrayList<BSTNode> tempList = new ArrayList<>();
+        for (BSTNode node : currentLevelNodes) {
+            if (node.LeftChild != null) {
+                tempList.add(node.LeftChild);
+            }
+            if (node.RightChild != null) {
+                tempList.add(node.RightChild);
+            }
+        }
+        WideAllNodesRecursive(tempList, allNodesList);
+    }
+
+    public ArrayList<BSTNode> DeepAllNodes(int traversalAlgorithm) {
+        ArrayList<BSTNode> allNodesList = new ArrayList<>();
+        if (Root == null) {
+            return allNodesList;
+        }
+        switch (traversalAlgorithm) {
+            case 0:
+                TraverseInOrder(Root, allNodesList);
+                break;
+            case 1:
+                TraversePostOrder(Root, allNodesList);
+                break;
+            case 2:
+                TraversePreOrder(Root, allNodesList);
+                break;
+        }
+
+        return allNodesList;
+    }
+
+    private void TraverseInOrder(BSTNode currentNode, ArrayList<BSTNode> allNodesList) {
+        if (currentNode.LeftChild != null) {
+            TraverseInOrder(currentNode.LeftChild, allNodesList);
+        }
+        allNodesList.add(currentNode);
+        if (currentNode.RightChild != null) {
+            TraverseInOrder(currentNode.RightChild, allNodesList);
+        }
+    }
+
+    private void TraversePostOrder(BSTNode currentNode, ArrayList<BSTNode> allNodesList) {
+        if (currentNode.LeftChild != null) {
+            TraversePostOrder(currentNode.LeftChild, allNodesList);
+        }
+        if (currentNode.RightChild != null) {
+            TraversePostOrder(currentNode.RightChild, allNodesList);
+        }
+        allNodesList.add(currentNode);
+    }
+
+    private void TraversePreOrder(BSTNode currentNode, ArrayList<BSTNode> allNodesList) {
+        allNodesList.add(currentNode);
+        if (currentNode.LeftChild != null) {
+            TraversePreOrder(currentNode.LeftChild, allNodesList);
+        }
+        if (currentNode.RightChild != null) {
+            TraversePreOrder(currentNode.RightChild, allNodesList);
+        }
+    }
+
 
     @Override
     public String toString() {
