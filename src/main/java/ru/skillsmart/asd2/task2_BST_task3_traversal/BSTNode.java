@@ -317,6 +317,19 @@ class BST<T> {
         }
     }
 
+    public void inverseTree(BSTNode currentNode){
+        BSTNode temp = currentNode.LeftChild;
+        currentNode.LeftChild = currentNode.RightChild;
+        currentNode.RightChild = temp;
+
+        if (currentNode.LeftChild != null) {
+            inverseTree(currentNode.LeftChild);
+        }
+        if (currentNode.RightChild != null) {
+            inverseTree(currentNode.RightChild);
+        }
+    }
+
 
     @Override
     public String toString() {
