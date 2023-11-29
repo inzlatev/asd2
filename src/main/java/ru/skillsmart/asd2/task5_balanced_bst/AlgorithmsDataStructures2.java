@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class AlgorithmsDataStructures2 {
     public static int[] GenerateBBSTArray(int[] a) {
         if (a.length == 0)
-            return a;
+            return new int[0];
         boolean isArraySizeCorrect = CheckArraySize(a.length);
         if (!isArraySizeCorrect) {
             throw new IllegalArgumentException("Incorrect input array size");
