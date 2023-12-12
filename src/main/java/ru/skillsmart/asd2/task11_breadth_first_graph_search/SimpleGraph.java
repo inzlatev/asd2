@@ -133,12 +133,12 @@ class SimpleGraph {
         for (Vertex v : vertex) {
             v.Hit = false;
         }
-        Integer[] elementParents = searchBFS(VFrom, VTo);
+        Integer[] elementParents = collectParents(VFrom, VTo);
 
         return tracePath(VFrom, VTo, elementParents);
     }
 
-    public Integer[] searchBFS(int VFrom, int VTo) {
+    public Integer[] collectParents(int VFrom, int VTo) {
         vertex[VFrom].Hit = true;
 
         Queue<Integer> vertexIndexQueue = new ArrayDeque<>();
